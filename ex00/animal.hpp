@@ -6,7 +6,7 @@
 /*   By: carbon-m <carbon-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 18:29:26 by carbon-m          #+#    #+#             */
-/*   Updated: 2025/12/10 18:47:39 by carbon-m         ###   ########.fr       */
+/*   Updated: 2025/12/12 18:27:08 by carbon-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@
 
 class animal
 {
+	protected:
+		std::string type;
 	public:
 		animal();
-		animal(animal &newanimal);
-		animal &operator= (const animal &copyanimal);
+		animal(const animal &newAnimal);
+		animal &operator= (const animal &copyAnimal);
 		~animal();
 
-		animal makeSound();
-	private:
-	
+		animal makeSound();	
 };
 
 #endif
