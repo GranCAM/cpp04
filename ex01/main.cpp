@@ -6,102 +6,110 @@
 /*   By: carbon-m <carbon-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 18:29:42 by carbon-m          #+#    #+#             */
-/*   Updated: 2025/12/14 20:08:09 by carbon-m         ###   ########.fr       */
+/*   Updated: 2025/12/16 19:40:28 by carbon-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "animal.hpp"
 #include "cat.hpp"
 #include "dog.hpp"
 #include "wronganimal.hpp"
 #include "wrongcat.hpp"
+#include "brain.hpp"
 
 int main()
 {
-	std::cout << "=== CORRECT POLYMORPHISM TEST ===" << std::endl;
-	
-	// Basic polymorphism test as specified
-	const animal* meta = new animal();
-	const animal* j = new dog();
-	const animal* i = new cat();
-	
-	std::cout << j->getType() << " " << std::endl;
-	std::cout << i->getType() << " " << std::endl;
-	i->makeSound(); //will output the cat sound!
-	j->makeSound(); //will output the dog sound!
-	meta->makeSound(); //will output the animal sound!
-	
-	delete meta;
-	delete j;
-	delete i;
-	
-	std::cout << "\n=== WRONG POLYMORPHISM TEST ===" << std::endl;
-	
-	// Wrong polymorphism test - should demonstrate the problem
-	const wrongAnimal* wrong_meta = new wrongAnimal();
-	const wrongAnimal* wrong_i = new wrongCat();
-	
-	std::cout << wrong_i->getType() << " " << std::endl;
-	std::cout << wrong_meta->getType() << " " << std::endl;
-	wrong_i->makeSound(); //will NOT output cat sound - outputs wrongAnimal sound!
-	wrong_meta->makeSound(); //outputs wrongAnimal sound
-	
-	delete wrong_meta;
-	delete wrong_i;
-	
-	std::cout << "\n=== ADDITIONAL COMPREHENSIVE TESTS ===" << std::endl;
-	
-	// Test 1: Array of animals with polymorphism
-	std::cout << "\n--- Test 1: Array polymorphism ---" << std::endl;
-	const animal* animals[3] = {new animal(), new dog(), new cat()};
-	for (int k = 0; k < 3; k++) {
-		std::cout << "Type: " << animals[k]->getType() << " -> ";
-		animals[k]->makeSound();
-	}
-	for (int k = 0; k < 3; k++) {
-		delete animals[k];
-	}
-	
-	// Test 2: Copy constructors and assignment
-	std::cout << "\n--- Test 2: Copy behavior ---" << std::endl;
-	dog original_dog;
-	std::cout << "Original dog type: " << original_dog.getType() << std::endl;
-	original_dog.makeSound();
-	
-	dog copied_dog(original_dog);
-	std::cout << "Copied dog type: " << copied_dog.getType() << std::endl;
-	copied_dog.makeSound();
-	
-	// Test 3: Stack vs Heap allocation
-	std::cout << "\n--- Test 3: Stack allocation ---" << std::endl;
-	cat stack_cat;
-	dog stack_dog;
-	std::cout << "Stack cat: ";
-	stack_cat.makeSound();
-	std::cout << "Stack dog: ";
-	stack_dog.makeSound();
-	
-	// Test 4: Wrong animals array (shows no polymorphism)
-	std::cout << "\n--- Test 4: Wrong array (no polymorphism) ---" << std::endl;
-	const wrongAnimal* wrong_animals[2] = {new wrongAnimal(), new wrongCat()};
-	for (int k = 0; k < 2; k++) {
-		std::cout << "Type: " << wrong_animals[k]->getType() << " -> ";
-		wrong_animals[k]->makeSound(); // Both will call wrongAnimal::makeSound()
-	}
-	for (int k = 0; k < 2; k++) {
-		delete wrong_animals[k];
-	}
-	
-	// Test 5: Assignment operator
-	std::cout << "\n--- Test 5: Assignment operator ---" << std::endl;
-	cat cat1;
-	cat cat2;
-	cat1.makeSound();
-	cat2 = cat1;
-	std::cout << "After assignment: ";
-	cat2.makeSound();
-	
-	std::cout << "\n=== ALL TESTS COMPLETED ===" << std::endl;
-	
-	return 0;
+    std::cout << "=== BASIC POLYMORPHISM WITH BRAIN TEST ===" << std::endl;
+    
+    // Basic test as specified in subject
+    const animal* j = new dog();
+    const animal* i = new cat();
+    
+    delete j; // should not create a leak
+    delete i;
+    
+    std::cout << "\n=== ARRAY OF ANIMALS (50% Dogs, 50% Cats) ===" << std::endl;
+    
+    // Create array of 10 animals (5 dogs, 5 cats)
+    const int ARRAY_SIZE = 10;
+    animal* animals[ARRAY_SIZE];
+    
+    // Fill first half with dogs
+    for (int index = 0; index < ARRAY_SIZE / 2; index++) {
+        animals[index] = new dog();
+    }
+    
+    // Fill second half with cats  
+    for (int index = ARRAY_SIZE / 2; index < ARRAY_SIZE; index++) {
+        animals[index] = new cat();
+    }
+    
+    // Test polymorphism
+    std::cout << "\n--- Testing polymorphism ---" << std::endl;
+    for (int index = 0; index < ARRAY_SIZE; index++) {
+        std::cout << "Animal " << index << " (" << animals[index]->getType() << "): ";
+        animals[index]->makeSound();
+    }
+    
+    // Clean up - delete as Animals (polymorphic destruction)
+    std::cout << "\n--- Deleting animals (testing virtual destructors) ---" << std::endl;
+    for (int index = 0; index < ARRAY_SIZE; index++) {
+        delete animals[index];
+    }
+    
+    std::cout << "\n=== DEEP COPY TESTS ===" << std::endl;
+    
+    // Test 1: Dog deep copy
+    std::cout << "\n--- Dog deep copy test ---" << std::endl;
+    dog* original_dog = new dog();
+    
+    // Test copy constructor
+    dog* copied_dog = new dog(*original_dog);
+    
+    std::cout << "Original and copy should be independent:" << std::endl;
+    std::cout << "Original dog: " << original_dog->getType() << std::endl;
+    std::cout << "Copied dog: " << copied_dog->getType() << std::endl;
+    
+    delete original_dog;
+    std::cout << "After deleting original, copy should still work:" << std::endl;
+    copied_dog->makeSound();
+    delete copied_dog;
+    
+    // Test 2: Cat deep copy
+    std::cout << "\n--- Cat deep copy test ---" << std::endl;
+    cat original_cat;
+    cat copied_cat = original_cat; // Copy constructor
+    
+    cat assigned_cat;
+    assigned_cat = original_cat; // Assignment operator
+    
+    std::cout << "All cats should work independently:" << std::endl;
+    original_cat.makeSound();
+    copied_cat.makeSound();
+    assigned_cat.makeSound();
+    
+    // Test 3: Brain independence test
+    std::cout << "\n--- Brain independence test ---" << std::endl;
+    dog dog1;
+    dog dog2 = dog1; // This should create independent brains
+    
+    // If you implement setIdea method, you could test:
+    // dog1.getBrain()->setIdea("I like bones");
+    // dog2.getBrain()->setIdea("I like playing");
+    // And verify they're different
+    
+    std::cout << "\n=== POLYMORPHIC ASSIGNMENT TEST ===" << std::endl;
+    
+    animal* poly_dog = new dog();
+    animal* poly_cat = new cat();
+    
+    std::cout << "Polymorphic types:" << std::endl;
+    std::cout << poly_dog->getType() << " says: ";
+    poly_dog->makeSound();
+    std::cout << poly_cat->getType() << " says: ";
+    poly_cat->makeSound();
+    
+    delete poly_dog;
+    delete poly_cat;
+    
+    return 0;
 }
