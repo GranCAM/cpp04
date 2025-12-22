@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   AMateria.hpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carbon-m <carbon-m@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/22 15:39:42 by carbon-m          #+#    #+#             */
+/*   Updated: 2025/12/22 15:42:18 by carbon-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #ifndef AMATERIA_HPP
 #define AMATERIA_HPP
 
 #include "iostream"
-#include "Character.hpp"
+#include "ICharacter.hpp"
 
 class AMateria
 {
