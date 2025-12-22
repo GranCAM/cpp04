@@ -6,7 +6,7 @@
 /*   By: carbon-m <carbon-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 18:29:22 by carbon-m          #+#    #+#             */
-/*   Updated: 2025/12/13 22:17:20 by carbon-m         ###   ########.fr       */
+/*   Updated: 2025/12/20 13:52:21 by carbon-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,6 @@ animal &animal::operator= (const animal &copyAnimal)
 animal::~animal()
 {
     std::cout << "Animal destructor called" << std::endl;	
-};
-
-void animal::makeSound() const
-{
-	std::cout << "...some grunting..." << std::endl;
 };
 
 std::string animal::getType() const

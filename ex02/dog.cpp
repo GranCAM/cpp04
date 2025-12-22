@@ -6,7 +6,7 @@
 /*   By: carbon-m <carbon-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 18:29:34 by carbon-m          #+#    #+#             */
-/*   Updated: 2025/12/16 16:26:22 by carbon-m         ###   ########.fr       */
+/*   Updated: 2025/12/20 13:50:47 by carbon-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ dog &dog::operator= (const dog &copydog)
 	{
 		this->type = copydog.type;
 		delete this->dbrain;
-		this->dbrain = new brain();
+		this->dbrain = new brain(*(copydog.dbrain));
 		std::cout << "Dog class assignment operator called\n" << std::endl;
 	}
 	return *this;
