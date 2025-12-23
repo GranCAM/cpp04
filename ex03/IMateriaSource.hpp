@@ -6,7 +6,7 @@
 /*   By: carbon-m <carbon-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 15:40:53 by carbon-m          #+#    #+#             */
-/*   Updated: 2025/12/22 17:29:25 by carbon-m         ###   ########.fr       */
+/*   Updated: 2025/12/23 15:18:34 by carbon-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define IMATERIASOURCE_HPP
 
 #include "iostream"
+#include "AMateria.hpp"	
 
 class IMateriaSource
 {
